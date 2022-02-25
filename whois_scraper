@@ -1,0 +1,21 @@
+#! /bin/bash
+
+filename='domains.txt'
+
+while read line;
+do whois $line > tempwhois.txt
+
+if grep -q 1850 tempwhois.txt
+then
+        cat output.txt | grep Domain\ Name | head -1 | cut -d ":" -f 2 >> whoout.txt && rm tempwhois.txt
+        printf "$line = ${GREEN}TRUE \n"
+        printf "$line = ${GREEN}TRUE \n" >> output.txt
+        sleep 15
+else
+        rm tempwhois.txt
+        printf "$line = ${RED}FALSE \n"
+        printf "$line = ${RED}FALSE \n" >> output.txt
+        sleep 15
+fi
+
+done < $filename
